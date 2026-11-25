@@ -15,7 +15,7 @@ Data lives in SQLite through `better-sqlite3`. The code is plain JavaScript, not
 
 ## Status and plan
 
-`ROADMAP.md` is the implementation plan and the source of truth for structure and decisions. Work through it phase by phase and tick the checkboxes as items are done. Phases 0 (scaffold), 1 (data layer: `lib/db.js`, `lib/validation.js`, `lib/tasks.js`, `scripts/seed.js`), 2 (REST API in `app/api/tasks/`) and 3 (board UI in `components/`) are finished. API and validation tests exist (`tests/`), but the browser UI tests of Phase 4 don't yet.
+`ROADMAP.md` is the implementation plan and the source of truth for structure and decisions. Work through it phase by phase and tick the checkboxes as items are done. Phases 0 (scaffold), 1 (data layer: `lib/db.js`, `lib/validation.js`, `lib/tasks.js`, `scripts/seed.js`), 2 (REST API in `app/api/tasks/`), 3 (board UI in `components/`) and 4 (Playwright tests: `tests/api.spec.js`, `tests/validation.spec.js`, `tests/ui.spec.js`) are finished. Phase 5 (documentation) is next.
 
 ## Commands
 
@@ -55,7 +55,9 @@ npx playwright show-report
 - **Tests (`playwright.config.js`)**:
   - `webServer` runs `npm run build && npm run start -- -p 3100` with `reuseExistingServer: false` and `DB_PATH=data/test.db`, so tests never touch the dev server or the real DB. Every test run rebuilds the app, so expect about a minute before the first test.
   - `tests/api.spec.js` empties the board in `beforeEach` by deleting every task through the API. If a faster reset is ever needed, gate a test-only endpoint on a custom env var such as `E2E=1`, not on `NODE_ENV`, because `next start` always sets `production`.
-  - `workers: 1`, since all tests share one SQLite file. Not yet set up: browser `projects` (chromium, mobile) for the UI tests of Phase 4.
+  - `workers: 1`, since all tests share one SQLite file.
+  - Projects: `api` runs `api|validation.spec.js` once without a browser; `chromium` (Desktop Chrome) and `mobile` (Pixel 7, also Chromium) run `ui.spec.js`. Only Chromium is needed: `npx playwright install chromium`. Run one project with `--project=chromium`.
+  - `tests/ui.spec.js` sets up data through the API and checks behaviour through the UI. Look form fields up inside the form (`form(page).getByLabel(...)`): `getByLabel` matches substrings, so on the whole page "Priorytet" also hits the filter "Filtruj według priorytetu".
   - To send a raw body (for example invalid JSON), pass a `Buffer`. A string in `data` gets JSON-encoded.
 
 ## Gotchas
@@ -63,3 +65,4 @@ npx playwright show-report
 - `next.config.mjs` enables `cacheComponents`, which removes the `dynamic`, `revalidate`, `fetchCache` and `runtime` segment configs. Don't add them. Under Cache Components a `GET` handler or page that touches no request data is **prerendered at build time**, and synchronous `better-sqlite3` reads don't count as request data. Any `GET` that reads the database must read the request (query string, `params`, headers) or call `await connection()` from `next/server`. After `npm run build`, check that such routes show as `ƒ (Dynamic)`, not `○ (Static)`. The Next.js docs for this exact version are in `node_modules/next/dist/docs/`.
 - Next.js is 16.x and React 19.x, so check current APIs rather than relying on older Next.js patterns.
 - `*.db`, `*.db-wal` and `*.db-shm` are gitignored. Don't commit database files.
+- On Windows without the Visual Studio C++ toolset, `npm ci` fails in `better-sqlite3`: npm's implicit `node-gyp rebuild` looks for Visual Studio before noticing the bundled prebuild. `npm ci --ignore-scripts` works, and the bundled `prebuilds/win32-x64.node` is used.

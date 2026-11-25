@@ -144,9 +144,9 @@ components/ConfirmDelete.js
 
 ---
 
-## Phase 4 – Playwright tests (E2E)
+## Phase 4 – Playwright tests (E2E) ✅ done
 
-- [ ] `playwright.config.js`:
+- [x] `playwright.config.js`:
   - `webServer: { command: 'npm run build && npm run start -- -p 3100', url: 'http://localhost:3100', reuseExistingServer: false, env: { DB_PATH: 'data/test.db', E2E: '1' } }`
     – a separate port and `reuseExistingServer: false` keep tests from hitting a running dev server and your real DB
   - `use: { baseURL: 'http://localhost:3100' }`
@@ -160,18 +160,20 @@ components/ConfirmDelete.js
 Test scenarios:
 
 **UI – positive**
-- [ ] board shows three columns
-- [ ] create a task → appears in "Do zrobienia"
-- [ ] edit title/priority → card updated
-- [ ] move a task TODO → IN_PROGRESS → DONE
-- [ ] delete a task (with confirmation) → card disappears
-- [ ] filter by priority / assignee shows only matching tasks
-- [ ] data persists after page reload
+- [x] board shows three columns
+- [x] create a task → appears in "Do zrobienia"
+- [x] edit title/priority → card updated
+- [x] move a task TODO → IN_PROGRESS → DONE
+- [x] delete a task (with confirmation) → card disappears
+- [x] filter by priority / assignee shows only matching tasks
+- [x] data persists after page reload
+- [x] overdue task highlighted in red (but not when DONE)
 
 **UI – negative**
-- [ ] empty title / title shorter than 3 chars → error message, task not created
-- [ ] invalid due date → error message
-- [ ] cancel in delete dialog → task stays
+- [x] empty title / title shorter than 3 chars → error message, task not created
+- [x] invalid due date → error message (`<input type="date">` can't hold one, so the test swaps it into the request with `page.route`)
+- [x] cancel in delete dialog → task stays
+- [x] Escape closes the form without saving
 
 **API (Playwright `request` fixture)**
 - [x] `POST` valid → `201`; invalid → `400` with `details`
