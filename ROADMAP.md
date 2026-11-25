@@ -7,20 +7,20 @@ Each phase ends with a **checkpoint**: something you can run or show before movi
 
 ---
 
-## Phase 0 – Project setup
+## Phase 0 – Project setup ✅ done
 
-- [ ] Use Node.js 20+ (develop on the current LTS, 22 or 24) – recent Next.js versions no longer support Node 18
-- [ ] Scaffold the app: `npx create-next-app@latest .` (App Router, ESLint; JS or TS – pick one and stick to it)
+- [x] Use Node.js 20+ (develop on the current LTS, 22 or 24) – recent Next.js versions no longer support Node 18
+- [x] Scaffold the app: `npx create-next-app@latest .` (App Router, ESLint; JS or TS – pick one and stick to it)
   - `create-next-app` refuses to run in a folder that contains `README.md` – move it out temporarily,
     scaffold, then put it back (replacing the generated one)
   - answer **No** to Tailwind CSS (Bootstrap is the UI framework)
-- [ ] Install dependencies:
+- [x] Install dependencies:
   - `npm i bootstrap better-sqlite3`
   - `npm i -D @playwright/test` + `npx playwright install`
-- [ ] Import Bootstrap CSS once in `app/layout.js` (`import 'bootstrap/dist/css/bootstrap.min.css'`)
-- [ ] `.gitignore`: `node_modules`, `.next`, `*.db`, `*.db-wal`, `*.db-shm`, `test-results`, `playwright-report`
-- [ ] Add `engines: { "node": ">=20" }` to `package.json`
-- [ ] Add npm scripts: `dev`, `build`, `start`, `test:e2e`, `db:seed`
+- [x] Import Bootstrap CSS once in `app/layout.js` (`import 'bootstrap/dist/css/bootstrap.min.css'`)
+- [x] `.gitignore`: `node_modules`, `.next`, `*.db`, `*.db-wal`, `*.db-shm`, `test-results`, `playwright-report`
+- [x] Add `engines: { "node": ">=20" }` to `package.json`
+- [x] Add npm scripts: `dev`, `build`, `start`, `test:e2e`, `db:seed`
 
 **Checkpoint:** `npm run dev` shows the default page styled with Bootstrap.
 
