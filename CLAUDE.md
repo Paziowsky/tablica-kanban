@@ -15,12 +15,12 @@ Data lives in SQLite through `better-sqlite3`. The code is plain JavaScript, not
 
 ## Status and plan
 
-`ROADMAP.md` is the implementation plan and the source of truth for structure and decisions. Work through it phase by phase and tick the checkboxes as items are done. Phases 0 (scaffold), 1 (data layer: `lib/db.js`, `lib/validation.js`, `lib/tasks.js`, `scripts/seed.js`), 2 (REST API in `app/api/tasks/`), 3 (board UI in `components/`) and 4 (Playwright tests: `tests/api.spec.js`, `tests/validation.spec.js`, `tests/ui.spec.js`) are finished. Phase 5 (documentation) is next.
+`ROADMAP.md` is the implementation plan and the source of truth for structure and decisions. Work through it phase by phase and tick the checkboxes as items are done. Phases 0 (scaffold), 1 (data layer: `lib/db.js`, `lib/validation.js`, `lib/tasks.js`, `scripts/seed.js`), 2 (REST API in `app/api/tasks/`), 3 (board UI in `components/`), 4 (Playwright tests: `tests/api.spec.js`, `tests/validation.spec.js`, `tests/ui.spec.js`) and 5 (README with run instructions and API table, screenshots in `docs/`, CI in `.github/workflows/tests.yml`) are finished. Only the optional Extras remain.
 
 ## Commands
 
 ```bash
-npm install                   # node_modules is not committed; needs Node >= 20.9
+npm install                   # node_modules is not committed; needs Node >= 22 (better-sqlite3 13)
 npm run dev                   # dev server
 npm run build && npm start    # production build
 npm run lint                  # ESLint (eslint-config-next core-web-vitals)

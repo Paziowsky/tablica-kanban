@@ -185,14 +185,14 @@ Test scenarios:
 
 ---
 
-## Phase 5 – Documentation and delivery
+## Phase 5 – Documentation and delivery ✅ done
 
-- [ ] Fix README section numbering and make the repo URL a real link
-- [ ] Update the README runtime line from Node `>= 18.x` / `20.x` to Node `>= 20` (matching `engines`)
-- [ ] Add to README: requirements, install, `db:seed`, run dev/prod, run tests, API endpoint table
-- [ ] Screenshots of the board (desktop + mobile) in `docs/`
-- [ ] Optional: GitHub Actions workflow running `npm ci`, `npx playwright install --with-deps`, `npm run test:e2e`
-- [ ] Final check: fresh clone → install → seed → run → tests pass
+- [x] Fix README section numbering and make the repo URL a real link
+- [x] Update the README runtime line from Node `>= 18.x` / `20.x` to Node `>= 22` (`better-sqlite3` 13 needs 22; `engines` raised to match)
+- [x] Add to README: requirements, install, `db:seed`, run dev/prod, run tests, API endpoint table
+- [x] Screenshots of the board (desktop + mobile, plus the form with a validation error) in `docs/`
+- [x] GitHub Actions workflow (`.github/workflows/tests.yml`): `npm ci`, lint, `npx playwright install --with-deps chromium`, `npm run test:e2e`, report uploaded as an artifact
+- [x] Final check: fresh clone → install → seed → run → tests pass
 
 ---
 
