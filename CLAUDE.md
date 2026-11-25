@@ -15,7 +15,7 @@ Data lives in SQLite through `better-sqlite3`. The code is plain JavaScript, not
 
 ## Status and plan
 
-`ROADMAP.md` is the implementation plan and the source of truth for structure and decisions. Work through it phase by phase and tick the checkboxes as items are done. Only Phase 0 (scaffold) is finished: `app/page.js` is a placeholder, and `lib/`, `scripts/`, `app/api/`, `components/` and `playwright.config.js` don't exist yet. When you create them, follow the file layout the roadmap suggests.
+`ROADMAP.md` is the implementation plan and the source of truth for structure and decisions. Work through it phase by phase and tick the checkboxes as items are done. Phases 0 (scaffold) and 1 (data layer: `lib/db.js`, `lib/validation.js`, `lib/tasks.js`, `scripts/seed.js`) are finished. `app/page.js` is still a placeholder, and `app/api/`, `components/` and `playwright.config.js` don't exist yet. When you create them, follow the file layout the roadmap suggests.
 
 ## Commands
 
@@ -24,9 +24,9 @@ npm install                   # node_modules is not committed; needs Node >= 20.
 npm run dev                   # dev server
 npm run build && npm start    # production build
 npm run lint                  # ESLint (eslint-config-next core-web-vitals)
-npm run db:seed               # runs scripts/seed.js (not written yet, Phase 1)
-npm run test:e2e              # Playwright (no config or tests yet, Phase 4)
-npx playwright test tests/tasks.spec.js -g "creates a task"   # a single test, once tests exist
+npm run db:seed               # (re)creates data/kanban.db with 8 sample tasks; honours DB_PATH
+npm run test:e2e              # all Playwright tests (tests/; no playwright.config.js until Phase 4)
+npx playwright test tests/validation.spec.js -g "dueDate"     # one file / one test by name
 npx playwright show-report
 ```
 

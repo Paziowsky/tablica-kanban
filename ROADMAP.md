@@ -26,7 +26,7 @@ Each phase ends with a **checkpoint**: something you can run or show before movi
 
 ---
 
-## Phase 1 – Data layer (SQLite)
+## Phase 1 – Data layer (SQLite) ✅ done
 
 Suggested structure:
 
@@ -39,7 +39,7 @@ scripts/
   seed.js        # sample tasks
 ```
 
-- [ ] `lib/db.js` – open the DB at the path from `process.env.DB_PATH` (default `data/kanban.db`), keep a single
+- [x] `lib/db.js` – open the DB at the path from `process.env.DB_PATH` (default `data/kanban.db`), keep a single
       connection (cache it on `globalThis` so hot reload doesn't open new ones). `better-sqlite3` does not create
       missing folders, so first call `fs.mkdirSync(path.dirname(dbPath), { recursive: true })`.
       Then run `CREATE TABLE IF NOT EXISTS`:
@@ -59,17 +59,17 @@ scripts/
 
   (`datetime('now')` would give `2026-11-25 10:00:00`, which browsers parse inconsistently.)
 
-- [ ] `lib/tasks.js` – functions using prepared statements:
+- [x] `lib/tasks.js` – functions using prepared statements:
   `listTasks({ status, priority, assignee })`, `getTask(id)`, `createTask(data)`,
   `updateTask(id, data)` (full), `patchTask(id, partial)`, `deleteTask(id)`
-- [ ] `lib/validation.js` – one place for the rules, shared by the API (and optionally the form):
+- [x] `lib/validation.js` – one place for the rules, shared by the API (and optionally the form):
   - `title` required, string, trimmed length ≥ 3 (and a max, e.g. 120)
   - `status` / `priority` in their enums
   - `dueDate` valid `YYYY-MM-DD` (optionally not earlier than today on create – if you add this rule,
     overdue tasks can only come from the seed or from edits, so decide it deliberately)
   - `assignee` optional string / email
   - returns `{ valid, errors: { field: message } }`
-- [ ] `scripts/seed.js` – insert ~8 example tasks across all statuses, including at least one overdue task
+- [x] `scripts/seed.js` – insert ~8 example tasks across all statuses, including at least one overdue task
       (so the red "overdue" highlight can be shown and tested)
   - the script runs under plain Node, not Next.js: the `@/` path alias won't resolve there, so use relative
     imports, and either add `"type": "module"` to `package.json` (for `import` syntax) or run it with `tsx`
