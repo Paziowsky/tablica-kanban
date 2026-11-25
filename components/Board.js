@@ -87,6 +87,8 @@ export default function Board() {
 
   return (
     <>
+      {/* inert: while a popup is open, the board behind it can't be focused or clicked */}
+      <div inert={Boolean(editing || deleting)}>
       <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
         <Filters filters={active} assignees={assignees} onChange={setFilters} />
         <button type="button" className="btn btn-primary" onClick={() => setEditing("new")} data-testid="new-task">
@@ -136,6 +138,7 @@ export default function Board() {
           })}
         </div>
       )}
+      </div>
 
       {editing && <TaskFormModal task={editing === "new" ? null : editing} onSave={save} onClose={() => setEditing(null)} />}
       {deleting && <ConfirmDelete task={deleting} onConfirm={remove} onClose={() => setDeleting(null)} />}

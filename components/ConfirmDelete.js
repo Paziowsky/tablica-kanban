@@ -18,7 +18,7 @@ export default function ConfirmDelete({ task, onConfirm, onClose }) {
       testId="confirm-delete"
       footer={
         <>
-          <button type="button" className="btn btn-outline-secondary" onClick={onClose}>Anuluj</button>
+          <button type="button" className="btn btn-outline-secondary" onClick={onClose} autoFocus>Anuluj</button>
           <button type="button" className="btn btn-danger" onClick={confirm} disabled={deleting}>
             {deleting ? "Usuwanie…" : "Usuń"}
           </button>
