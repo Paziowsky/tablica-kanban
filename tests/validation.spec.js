@@ -8,6 +8,8 @@ test.describe("validateTask", () => {
     expect(validateTask({ title: "ab" }).valid).toBe(false);
     expect(validateTask({ title: "   abc  " }).value.title).toBe("abc");
     expect(validateTask({ title: "  ab  " }).valid).toBe(false);
+    expect(validateTask({ title: "😀😀" }).valid).toBe(false); // 2 characters, though JS length is 4
+    expect(validateTask({ title: "😀😀😀" }).valid).toBe(true);
     expect(validateTask({ title: "x".repeat(120) }).valid).toBe(true);
     expect(validateTask({ title: "x".repeat(121) }).valid).toBe(false);
   });

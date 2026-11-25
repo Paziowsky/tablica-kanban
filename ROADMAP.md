@@ -79,7 +79,7 @@ scripts/
 
 ---
 
-## Phase 2 – REST API (Route Handlers)
+## Phase 2 – REST API (Route Handlers) ✅ done
 
 Files:
 
@@ -88,8 +88,10 @@ app/api/tasks/route.js        # GET (list), POST (create)
 app/api/tasks/[id]/route.js   # GET, PUT, PATCH, DELETE
 ```
 
-Add `export const runtime = 'nodejs'` (better-sqlite3 doesn't run on Edge) and
-`export const dynamic = 'force-dynamic'`.
+~~Add `export const runtime = 'nodejs'` and `export const dynamic = 'force-dynamic'`.~~ Not allowed here:
+`next.config.mjs` enables `cacheComponents`, which removes both options (Node.js is already the default runtime).
+Instead, each `GET` handler reads the request (query string or `params`), so it runs per request rather than
+being prerendered at build time – the build output must show both routes as `ƒ (Dynamic)`.
 
 | Method | URL | Success | Errors |
 | :-- | :-- | :-- | :-- |
@@ -100,10 +102,10 @@ Add `export const runtime = 'nodejs'` (better-sqlite3 doesn't run on Edge) and
 | PATCH | `/api/tasks/:id` (e.g. `{ "status": "DONE" }`) | `200` + updated task | `400`, `404` |
 | DELETE | `/api/tasks/:id` | `204` (no body) | `404` |
 
-- [ ] Consistent error format: `{ "error": "Validation failed", "details": { "title": "..." } }`
-- [ ] Handle invalid JSON body → `400`
-- [ ] Non-numeric `id` → `400`
-- [ ] Note: since Next.js 15 `params` is a Promise, and in current versions it must be awaited
+- [x] Consistent error format: `{ "error": "Validation failed", "details": { "title": "..." } }`
+- [x] Handle invalid JSON body → `400`
+- [x] Non-numeric `id` → `400`
+- [x] Note: since Next.js 15 `params` is a Promise, and in current versions it must be awaited
       (synchronous access no longer works) – `const { id } = await params`
 
 **Checkpoint:** every endpoint checked manually with curl / Thunder Client / Postman.
@@ -149,11 +151,11 @@ components/ConfirmDelete.js
     – a separate port and `reuseExistingServer: false` keep tests from hitting a running dev server and your real DB
   - `use: { baseURL: 'http://localhost:3100' }`
   - projects: chromium (+ optionally a mobile device, e.g. `devices['Pixel 7']`)
-- [ ] Isolated test data: a separate DB (`DB_PATH`), cleared before each test – e.g. a test-only endpoint
+- [x] Isolated test data: a separate DB (`DB_PATH`), cleared before each test – e.g. a test-only endpoint
       `POST /api/test/reset` enabled only when `process.env.E2E === '1'` (not a `NODE_ENV` check: `next start`
       always sets `NODE_ENV=production`, so such an endpoint would be disabled during the tests), or delete
       tasks through the API in `beforeEach`
-- [ ] Use `workers: 1` (shared SQLite file) or one DB per worker
+- [x] Use `workers: 1` (shared SQLite file) or one DB per worker
 
 Test scenarios:
 
@@ -172,10 +174,10 @@ Test scenarios:
 - [ ] cancel in delete dialog → task stays
 
 **API (Playwright `request` fixture)**
-- [ ] `POST` valid → `201`; invalid → `400` with `details`
-- [ ] `GET /api/tasks/999999` → `404`
-- [ ] `PATCH` with invalid status → `400`
-- [ ] `DELETE` → `204`, then `GET` → `404`
+- [x] `POST` valid → `201`; invalid → `400` with `details`
+- [x] `GET /api/tasks/999999` → `404`
+- [x] `PATCH` with invalid status → `400`
+- [x] `DELETE` → `204`, then `GET` → `404`
 
 **Checkpoint:** `npm run test:e2e` is green; HTML report (`npx playwright show-report`) available.
 
