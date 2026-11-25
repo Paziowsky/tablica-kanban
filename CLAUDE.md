@@ -15,7 +15,7 @@ Data lives in SQLite through `better-sqlite3`. The code is plain JavaScript, not
 
 ## Status and plan
 
-`ROADMAP.md` is the implementation plan and the source of truth for structure and decisions. Work through it phase by phase and tick the checkboxes as items are done. Phases 0 (scaffold), 1 (data layer: `lib/db.js`, `lib/validation.js`, `lib/tasks.js`, `scripts/seed.js`) and 2 (REST API in `app/api/tasks/`) are finished. `app/page.js` is still a placeholder and `components/` doesn't exist yet. API and validation tests exist (`tests/`), but the UI tests of Phase 4 don't. When you create them, follow the file layout the roadmap suggests.
+`ROADMAP.md` is the implementation plan and the source of truth for structure and decisions. Work through it phase by phase and tick the checkboxes as items are done. Phases 0 (scaffold), 1 (data layer: `lib/db.js`, `lib/validation.js`, `lib/tasks.js`, `scripts/seed.js`), 2 (REST API in `app/api/tasks/`) and 3 (board UI in `components/`) are finished. API and validation tests exist (`tests/`), but the browser UI tests of Phase 4 don't yet.
 
 ## Commands
 
@@ -44,11 +44,13 @@ npx playwright show-report
   - Invalid JSON returns 400, and so does an id that isn't a positive integer. Unknown `status`/`priority` filter values return 400.
   - `PUT` replaces all editable fields, so fields left out reset to their defaults. `PATCH` changes only the fields sent.
   - `params` is a Promise, so use `const { id } = await params`.
-- **UI**: a client page fetches `/api/tasks`.
-  - Components: Board (3 columns, `col-12 col-md-4`), TaskCard, TaskFormModal (the same form for create and edit), Filters, ConfirmDelete.
-  - Modals are driven by React state. If you need Bootstrap JS, load it inside `useEffect` with `import('bootstrap/dist/js/bootstrap.bundle.min.js')`.
-  - Show server 400 `details` per field with `is-invalid` / `invalid-feedback`.
-  - Put `data-testid` on columns, cards and form fields for Playwright.
+- **UI**: `app/page.js` (server component: navbar) renders the client component `components/Board.js`.
+  - Board owns all state: it loads every task once from `GET /api/tasks` and reloads after each change. Filters (priority, assignee) run in the browser, not through the API's query params. A filter for a person who no longer has tasks is ignored.
+  - TaskCard, TaskFormModal (one form for create = `POST` and edit = `PUT`; it includes `status` so `PUT` doesn't reset it), ConfirmDelete and Filters sit next to Board. `Modal.js` is the shared Bootstrap modal markup, driven by React state with no Bootstrap JS. Polish labels, badge colours and date helpers live in `labels.js`.
+  - The form uses `noValidate`. Errors come only from the server's 400 `details` and show with `is-invalid` / `invalid-feedback`.
+  - A task is overdue when `dueDate` is before today's local date and its status isn't `DONE`.
+  - `data-testid` hooks: `column-TODO|IN_PROGRESS|DONE`, `column-count`, `task-card` (plus `data-task-id`), `task-title`, `task-priority`, `task-assignee`, `task-due-date`, `new-task`, `filter-priority`, `filter-assignee`, `task-form`, `field-<name>`, `confirm-delete`, `error-alert`. Form inputs also have labels, so `getByLabel("Tytuł")` works.
+  - Lint (`react-hooks/set-state-in-effect`) rejects an `async` function that sets state being called from `useEffect`. Use a promise chain with `setState` in the `.then`/`.catch` callbacks (see `load` in Board.js).
 - **`scripts/seed.js`**: runs under plain Node, not Next.js. The `@/` alias (from `jsconfig.json`) does not resolve there, so use relative imports. Plain Node also needs `"type": "module"` in `package.json` for `import` syntax. The seed must include at least one overdue task.
 - **Tests (`playwright.config.js`)**:
   - `webServer` runs `npm run build && npm run start -- -p 3100` with `reuseExistingServer: false` and `DB_PATH=data/test.db`, so tests never touch the dev server or the real DB. Every test run rebuilds the app, so expect about a minute before the first test.

@@ -112,7 +112,7 @@ being prerendered at build time – the build output must show both routes as `�
 
 ---
 
-## Phase 3 – User interface (Bootstrap 5)
+## Phase 3 – User interface (Bootstrap 5) ✅ done
 
 Suggested components:
 
@@ -125,20 +125,20 @@ components/Filters.js       # priority, assignee, text search
 components/ConfirmDelete.js
 ```
 
-- [ ] Layout: navbar + `container-fluid` + `row` with 3 `col-12 col-md-4` columns (stacks on mobile)
-- [ ] Column header with task count badge
-- [ ] Task card: priority as coloured badge (`LOW` secondary, `MEDIUM` warning, `HIGH` danger),
+- [x] Layout: navbar + `container-fluid` + `row` with 3 `col-12 col-md-4` columns (stacks on mobile)
+- [x] Column header with task count badge
+- [x] Task card: priority as coloured badge (`LOW` secondary, `MEDIUM` warning, `HIGH` danger),
       overdue due date highlighted in red
-- [ ] Create task: "Nowe zadanie" button → modal with form
-- [ ] Edit task: open the same modal prefilled → `PUT`
-- [ ] Change status: buttons "←/→" or a select on the card → `PATCH` (drag & drop is optional, see Extras)
-- [ ] Delete: confirmation modal → `DELETE`
-- [ ] Filters by priority and assignee (via API query params or client-side)
-- [ ] Form validation: Bootstrap `is-invalid` + `invalid-feedback`, show server `400` details per field
-- [ ] Loading state (spinner), empty column state, error alert/toast when the API fails
-- [ ] Modals: either control them with React state (simplest) or load Bootstrap JS in a client component via
+- [x] Create task: "Nowe zadanie" button → modal with form
+- [x] Edit task: open the same modal prefilled → `PUT`
+- [x] Change status: buttons "←/→" or a select on the card → `PATCH` (drag & drop is optional, see Extras)
+- [x] Delete: confirmation modal → `DELETE`
+- [x] Filters by priority and assignee (via API query params or client-side)
+- [x] Form validation: Bootstrap `is-invalid` + `invalid-feedback`, show server `400` details per field
+- [x] Loading state (spinner), empty column state, error alert/toast when the API fails
+- [x] Modals: either control them with React state (simplest) or load Bootstrap JS in a client component via
       `useEffect(() => { import('bootstrap/dist/js/bootstrap.bundle.min.js') }, [])`
-- [ ] Add `data-testid` attributes to key elements (columns, cards, form fields) – makes Phase 4 much easier
+- [x] Add `data-testid` attributes to key elements (columns, cards, form fields) – makes Phase 4 much easier
 
 **Checkpoint:** full CRUD works in the browser on desktop and in mobile view (DevTools).
 

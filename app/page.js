@@ -1,4 +1,5 @@
-// Placeholder page – replaced by the Kanban board in Phase 3.
+import Board from "@/components/Board.js";
+
 export default function Home() {
   return (
     <>
@@ -7,13 +8,8 @@ export default function Home() {
           <span className="navbar-brand">Tablica zadań zespołu</span>
         </div>
       </nav>
-      <main className="container py-5">
-        <div className="alert alert-success" role="alert">
-          Next.js + Bootstrap 5 działa.
-        </div>
-        <button type="button" className="btn btn-primary">
-          Nowe zadanie
-        </button>
+      <main className="container-fluid py-3">
+        <Board />
       </main>
     </>
   );
